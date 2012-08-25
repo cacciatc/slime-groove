@@ -1144,6 +1144,31 @@
 			return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
 		}
 		
+		/**
+ * Returns the Entity at front which collides with the point.
+ * @param   x       X position
+ * @param   y       Y position
+ * @return The Entity at front which collides with the point, or null if not found.
+ */
+public function frontCollidePoint(x:Number, y:Number):Entity
+{
+    var e:Entity,
+    i:int = 0,
+    l:int = _layerList.length;
+    do
+    {
+        e = _renderFirst[_layerList[i]];
+        while (e)
+        {
+            if(e.collidePoint(e.x, e.y, x, y)) return e;
+            e = e._renderNext
+        }
+        if(i > l) break;
+    }
+    while(++i);
+        return null;
+}
+		
 		/** @private Calculates the squared distance between a rectangle and a point. */
 		private static function squarePointRect(px:Number, py:Number, rx:Number, ry:Number, rw:Number, rh:Number):Number
 		{

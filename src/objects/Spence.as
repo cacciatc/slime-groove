@@ -31,6 +31,8 @@ package objects
 		public var onStairs:Boolean;
 		public var destDoor:Door;
 		
+		public var bulletTimer:Number;
+		
 		public function Spence(x:int, y:int) 
 		{
 			super(x, y, sprite);
@@ -40,7 +42,7 @@ package objects
 			
 			sprite.add("Idle", [0], 0, false);
 			sprite.add("Run", [1, 2, 3], 10, true);
-			sprite.add("Shoot", [4, 5, 6, 7, 8], 10, true);
+			sprite.add("Shoot", [4, 5, 6, 7, 8], 10, false);
 			
 			safeSpot = new Point(x, y);
 			
@@ -74,18 +76,28 @@ package objects
 				
 				if (collide("Solid", x, y+1))
 				{
-					if (Math.abs(speed.x) > 0)
+					if (Math.abs(speed.x) > 0.1 && sprite.currentAnim != "Shoot")
 					{
 						sprite.play("Run");
 						sprite.rate = FP.scale(Math.abs(speed.x), 0, MAX_SPEED, 0, 1);
 					}
 					else
 					{
-						if (Input.check(Key.SPACE)){
+						if (Input.released(Key.SPACE))
+						{
 							sprite.play("Shoot");
 							sprite.rate = 1;
+							
+							if (sprite.flipped)
+							{
+								FP.world.add(new Bullet(x - 6, y+1, -30));
+							}
+							else
+							{
+								FP.world.add(new Bullet(x + 6, y+1, 30));
+							}
 						}
-						else{
+						else if(sprite.currentAnim != "Shoot"){
 							sprite.play("Idle");
 							sprite.rate = 1;
 						}
@@ -116,6 +128,10 @@ package objects
 				if (speed.x != 0)
 					sprite.flipped = speed.x < 0; 
 				
+				if (sprite.complete && sprite.currentAnim == "Shoot")
+				{
+					sprite.play("Idle");	
+				}
 				/*if (collide("Death", x, y))
 				{
 					//world.add(new Explode(x, y - 10));

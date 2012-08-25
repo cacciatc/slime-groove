@@ -1,5 +1,6 @@
 package 
 {
+	import com.greensock.plugins.SetActualSizePlugin;
 	import com.greensock.TweenMax;
 	import flash.display.MovieClip;
 	import flash.display.StageQuality;
