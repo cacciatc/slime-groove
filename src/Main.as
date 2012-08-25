@@ -12,10 +12,11 @@ package
 	{
 		public function Main()
 		{
-			super(640, 480, 60);
-			FP.screen.scale = 2;
+			super(640, 384, 60);
+			FP.screen.scale = 8;
 			FP.screen.color = 0x444444;
 			
+			FP.world = new SlimeGroove();
 		}
 	}
 }

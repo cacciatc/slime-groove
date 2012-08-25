@@ -1,31 +1,21 @@
 package  
 {
-	//import gui.TextBox;
 	import net.flashpunk.FP;
 	import net.flashpunk.World;
 	
 	public class Room extends World 
 	{
-		//public var textBox:TextBox;
 		public var shakeTime:int = 0;
 		public var shakeAmount:Number = 0;
 		
 		public function Room() 
 		{
-			
+
 		}
-		
-		/*override public function update():void 
-		{
-			if (textBox == null)
-				super.update();
-			else
-				textBox.update();
-		}*/
 		
 		override public function render():void 
 		{
-			if (shakeTime > 0)
+			/*if (shakeTime > 0)
 			{
 				shakeTime--;
 				var x:Number = camera.x;
@@ -36,7 +26,7 @@ package
 				camera.x = x;
 				camera.y = y;
 			}
-			else
+			else*/
 				super.render();
 		}
 		

@@ -1,6 +1,6 @@
-package objects.platformer3 
+package  
 {
-	import gui.TextBox;
+	import flash.geom.Point;
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Backdrop;
@@ -8,12 +8,18 @@ package objects.platformer3
 	import net.flashpunk.masks.Grid;
 	import net.flashpunk.Sfx;
 	import net.flashpunk.World;
+	import objects.Spence;
+	import objects.BlueSlime;
+	import objects.Door;
 	
-	public class Platformer3 extends Room
+	import org.flashdevelop.utils.FlashConnect;
+	
+	public class SlimeGroove extends Room
 	{
-		[Embed(source = "../../levels/platformer3/level_1.oel", mimeType = "application/octet-stream")] public static const LEVEL_1:Class;
-		[Embed(source = "../../assets/platformer/background.png")] public static const BACKGROUND:Class;
-		[Embed(source = '../../assets/platformer/tiles3.png')] public static const TILES:Class;
+		[Embed(source = "levels/mini-lab.oel", mimeType = "application/octet-stream")] public static const LAB:Class;
+		[Embed(source = "assets/graphics/background-tiles.png")] public static const BACKGROUND:Class;
+		[Embed(source = 'assets/graphics/background-textures.png')] public static const WALLS:Class;
+		
 		
 		public var file:Class;
 		public var level:XML;
@@ -22,12 +28,13 @@ package objects.platformer3
 		public var background:Backdrop;
 		public var solids:Grid;
 		public var tiles:Tilemap;
-		public var player:Player;
+		public var back:Tilemap;
+		public var spence:Spence;
 		
-		public function Platformer3(file:Class = null) 
+		public function SlimeGroove(file:Class = null) 
 		{
 			if (file == null)
-				file = LEVEL_1;
+				file = LAB;
 			
 			this.file = file;
 			level = FP.getXML(file);
@@ -35,38 +42,52 @@ package objects.platformer3
 			width = level.@width;
 			height = level.@height;
 			
-			background = new Backdrop(BACKGROUND, true, true);
-			background.scrollX = 0.5;
-			addGraphic(background, 20);
-			
-			solids = new Grid(width, height, 20, 20);
-			solids.loadFromString(level.Solids, "", "\n");
+			solids = new Grid(width, height, 16, 16);
+			solids.loadFromString(level.Boundry, "", "\n");
 			addMask(solids, "Solid");
 			
-			tiles = new Tilemap(TILES, width, height, 20, 20);
-			tiles.loadFromString(level.Tiles, ",", "\n");
-			addGraphic(tiles, 10);
+			back = new Tilemap(WALLS, 128, 64, 16, 16);
+			back.loadFromString(level.Tiles, ",", "\n");
+
+			addGraphic(back, 20);
 			
+			tiles = new Tilemap(BACKGROUND, 128, 64, 16, 16);
+			tiles.loadFromString(level.Background, ",", "\n");
+			
+			addGraphic(tiles, 10);
+
 			var o:XML;
 			
-			for each (o in level.Objects.Player)
-				add(player = new Player(o.@x, o.@y));
+				
+			for each (o in level.Entities.Door)
+			{
+				add(new Door(int(o.@x), int(o.@y) + 16, int(o.@To), int(o.@name)));
+			}
 			
-			for each (o in level.Objects.Spikes)
-				add(new Spikes(o.@x, o.@y, o.@width));
+			for each (o in level.Entities.Spence)
+			{
+				add(spence = new Spence(int(o.@x), int(o.@y)+16));
+			}
+			
+			for each (o in level.Entities.BlueSlime)
+			{
+				add(new BlueSlime(int(o.@x), int(o.@y) + 16));
+			}
 		}
 		
 		override public function update():void 
 		{
 			super.update();
 			
-			camera.x += (FP.clamp(player.x - FP.halfWidth, 0, width - FP.width) - camera.x) * 0.1;
+			camera.x += (FP.clamp(spence.x - 32, 0, width) - camera.x)
+			camera.y = spence.y - 32;
 			
-			if (player.x > width + 10)
-			{
-				trace("Complete!");
-				active = false;
-			}
+			//camera.y += (FP.clamp(spence.y, 0, 16) - camera.y)
+			//if (player.x > width + 10)
+			//{
+			//	trace("Complete!");
+			//	active = false;
+			//}
 		}
 	}
 }
