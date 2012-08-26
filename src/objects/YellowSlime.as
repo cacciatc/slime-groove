@@ -7,25 +7,24 @@ package objects
 	import net.flashpunk.FP;
 	import com.greensock.TweenMax;
 	
-	public class YellowSlime extends Slime 
+	public class YellowSlime extends Entity 
 	{
 		[Embed(source = "../assets/graphics/slimes_sm.png")] public static const SLIME:Class;
 		[Embed(source = "../assets/audio/slime-jump.mp3")] public static const JUMP:Class;
 		
+		public var sprite:Spritemap = new Spritemap(SLIME, 160,160);
 		public var jumpSnd:Sfx = new Sfx(JUMP);
+		public var health:int = 2;
 		
 		public function YellowSlime(x:int, y:int) 
 		{
-			super(x, y, new Spritemap(SLIME, 16, 16), 5);
-			setHitbox(8, 10, 4, 10);
-			sprite.originX = 8;
-			sprite.originY = 16;
+			super(x, y, sprite);
+			setHitbox(160, 160 - 30);
 			
-			sprite.add("Idle", [0], 0, false);
-			sprite.add("Jumping", [1, 2, 3, 4, 3], 5, false);
-			
+			sprite.add("Idle", [5], 0, false);
+			sprite.add("Jumping", [6, 7, 8, 9, 8], 5, false);
+		
 			sprite.play("Idle");
-			
 			type = "Slime";
 		}
 		
@@ -35,10 +34,10 @@ package objects
 			if (sprite.complete)
 				sprite.play("Idle");
 				
-			if (collide("Solid", x, y - 10))
-			{
-				TweenMax.killTweensOf(this);
-			}
+			//if (collide("Solid", x, y - 10))
+			//{
+			//	TweenMax.killTweensOf(this);
+			//}
 		}
 		
 		private function jump():void 

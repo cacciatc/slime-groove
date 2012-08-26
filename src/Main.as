@@ -13,8 +13,8 @@ package
 	{
 		public function Main()
 		{
-			super(128, 64, 60);
-			FP.screen.scale = 10;
+			super(640, 480, 60);
+			FP.screen.scale = 1;
 			FP.screen.color = 0x444444;
 			
 			FP.world = new SlimeGroove();

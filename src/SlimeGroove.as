@@ -4,6 +4,7 @@ package
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Backdrop;
+	import net.flashpunk.graphics.Text;
 	import net.flashpunk.graphics.Tilemap;
 	import net.flashpunk.masks.Grid;
 	import net.flashpunk.Sfx;
@@ -33,6 +34,13 @@ package
 		public var back:Tilemap;
 		public var spence:Spence;
 		
+		public var slimesLeft:PunkLabel;
+		public var timeLeft:PunkLabel;
+		
+		public var timeTimer:Number = 0.0;
+		
+		public static const TILE_SIZE:int = 160;
+		
 		public function SlimeGroove(file:Class = null) 
 		{
 			if (file == null)
@@ -41,25 +49,22 @@ package
 			this.file = file;
 			level = FP.getXML(file);
 			
-			width = level.@width;
-			height = level.@height;
+			width = int(level.@width);
+			height = int(level.@height);
 			
-			solids = new Grid(width, height, 16, 16);
+			solids = new Grid(width, height, TILE_SIZE, TILE_SIZE);
 			solids.loadFromString(level.Boundry, "", "\n");
-			solids.y -= 16;
 			addMask(solids, "Solid");
 			
-			back = new Tilemap(WALLS, 128, 96, 16, 16);
+			back = new Tilemap(WALLS, width, height, TILE_SIZE, TILE_SIZE);
 
 			back.loadFromString(level.Tiles, ",", "\n");
-			back.y -= 16;
 
 			addGraphic(back, 20);
 			
-			tiles = new Tilemap(BACKGROUND, 128, 96, 16, 16);
+			tiles = new Tilemap(BACKGROUND, width, height, TILE_SIZE, TILE_SIZE);
 
 			tiles.loadFromString(level.Background, ",", "\n");
-			tiles.y -= 16;
 			
 			addGraphic(tiles, 10);
 
@@ -68,7 +73,7 @@ package
 				
 			for each (o in level.Entities.Door)
 			{
-				add(new Door(int(o.@x)+2, int(o.@y) + 0, int(o.@To), int(o.@name)));
+				add(new Door(int(o.@x), int(o.@y) + 0, int(o.@To), int(o.@name)));
 			}
 			
 			for each (o in level.Entities.Spence)
@@ -80,37 +85,59 @@ package
 			for each (o in level.Entities.BlueSlime)
 			{
 				count += 1;
-				add(new BlueSlime(int(o.@x)+2, int(o.@y) + 0));
+				add(new BlueSlime(int(o.@x), int(o.@y)));
 			}
-			for each (o in level.Entities.YellowSlime)
-			{
-				count += 1;
-				add(new YellowSlime(int(o.@x)+2, int(o.@y) + 0));
-			}
+			//for each (o in level.Entities.YellowSlime)
+			//{
+			//	count += 1;
+			//	add(new YellowSlime(int(o.@x), int(o.@y) + 0));
+			//}
 			
 			var stats:Stats = new Stats();
 			stats.slimeTotal = count;
-			stats.slimeCount = 0;	
+			stats.slimeCount = 0;
+			stats.slimeTime = 30;
+			
+			slimesLeft = new PunkLabel(stats.slimeCount + "/" + stats.slimeTotal + " slimes left", spence.x+60, 10);
+			slimesLeft.size = 32;
+			
+			timeLeft = new PunkLabel(String(stats.slimeTime) + " sec left", spence.x+60, 10);
+			timeLeft.size = 32;
+			
+			add(slimesLeft);
+			add(timeLeft);
+			add(stats);
 		}
 		
 		override public function update():void 
 		{
 			super.update();
 			
-			camera.x += (FP.clamp(spence.x - 32, -10, width) - camera.x)
-			camera.y = spence.y -32;
+			camera.x += (FP.clamp(spence.x - 320, -10, width) - camera.x)
+			camera.y = spence.y - 160;
 			
+			slimesLeft.x = spence.x + 60;
+			slimesLeft.y = spence.y - 160;
+			timeLeft.x = spence.x+128;
+			timeLeft.y = spence.y - 160+32;
+
+			slimesLeft.text = FP.world.getInstance("Stats").slimeCount + "/" + FP.world.getInstance("Stats").slimeTotal + " slimes left";
+			
+			timeTimer += FP.elapsed;
+
+			if(timeTimer > 1.0)
+			{
+				var s:Stats = FP.world.getInstance("Stats");
+				s.slimeTime -=  1;
+				timeLeft.text = String(s.slimeTime) + " sec left";
+				timeTimer = 0;
+			}
 			//camera.y += (FP.clamp(spence.y, 0, 16) - camera.y)
 			//if (player.x > width + 10)
 			//{
 			//	trace("Complete!");
 			//	active = false;
 			//}
-		}
-		
-		override public function render():void
-		{
-			super.render();
 		}
 	}
 }

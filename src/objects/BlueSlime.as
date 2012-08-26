@@ -7,26 +7,27 @@ package objects
 	import net.flashpunk.FP;
 	import com.greensock.TweenMax;
 	
-	public class BlueSlime extends Slime 
+	import org.flashdevelop.utils.FlashConnect;
+	
+	public class BlueSlime extends Entity 
 	{
 		[Embed(source = "../assets/graphics/slimes_sm.png")] public static const SLIME:Class;
 		[Embed(source = "../assets/audio/slime-jump.mp3")] public static const JUMP:Class;
 		
+		public var sprite:Spritemap = new Spritemap(SLIME, 160,160);
 		public var jumpSnd:Sfx = new Sfx(JUMP);
+		public var health:int = 2;
 		
 		public function BlueSlime(x:int, y:int) 
 		{
-			super(x, y, new Spritemap(SLIME, 16, 16), 2);
-			setHitbox(8, 10, 4, 10);
-			sprite.originX = 8;
-			sprite.originY = 16;
+			super(x, y, sprite);
+			setHitbox(160-80, 160 - 30,60,30);
 			
 			sprite.add("Idle", [5], 0, false);
 			sprite.add("Jumping", [6, 7, 8, 9, 8], 5, false);
-			
+		
 			sprite.play("Idle");
-			
-			type = "Slime";
+			type = "BlueSlime";
 		}
 		
 		override public function update():void 
@@ -35,9 +36,16 @@ package objects
 			if (sprite.complete)
 				sprite.play("Idle");
 				
-			if (collide("Solid", x, y - 10))
+			if (collide("Solid", x, y))
 			{
-				TweenMax.killTweensOf(this);
+				if (x <= 160)
+				{
+					x = 160;
+				}
+				if (x + 80 > SlimeGroove(FP.world).width - 210)
+				{
+					x = FP.width+320;
+				}
 			}
 		}
 		

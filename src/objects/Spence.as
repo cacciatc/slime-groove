@@ -18,27 +18,23 @@ package objects
 	public class Spence extends Entity 
 	{
 		[Embed(source = '../assets/graphics/spence.png')] public static const SPENCE:Class;
-		
-		public static const MAX_SPEED:Number = 0.4;
-		public static const ACCEL:Number = 0.05;
+		public static const TILE_SIZE:int = 160;
+		public static const MAX_SPEED:Number = 3;
+		public static const ACCEL:Number = 1;
 		public static const FRICTION:Number = MAX_SPEED / (MAX_SPEED + ACCEL);
 		public static const MIN_SPEED:Number = ACCEL * FRICTION;
 		
-		public var sprite:Spritemap = new Spritemap(SPENCE, 16, 16);
+		public var sprite:Spritemap = new Spritemap(SPENCE, TILE_SIZE, TILE_SIZE);
 		public var speed:Point = new Point();
 		public var safeSpot:Point;
 		
 		public var onStairs:Boolean;
 		public var destDoor:Door;
 		
-		public var bulletTimer:Number;
-		
 		public function Spence(x:int, y:int) 
 		{
 			super(x, y, sprite);
-			setHitbox(8, 10, 4, 10);
-			sprite.originX = 8;
-			sprite.originY = 16;
+			setHitbox(TILE_SIZE-40, TILE_SIZE-30);
 			
 			sprite.add("Idle", [0], 0, false);
 			sprite.add("Run", [1, 2, 3], 10, true);
@@ -58,7 +54,6 @@ package objects
 				
 			}
 			else {
-				
 				if (Input.check(Key.RIGHT))
 					speed.x += ACCEL;
 				
@@ -72,66 +67,64 @@ package objects
 				
 				moveBy(speed.x, speed.y, "Solid", true);
 				
-				x = Math.max(x, 5);
+				x = Math.max(x, 2);
 				
-				if (collide("Solid", x, y+1))
+				if (Math.abs(speed.x) > 0.1 && sprite.currentAnim != "Shoot")
 				{
-					if (Math.abs(speed.x) > 0.1 && sprite.currentAnim != "Shoot")
-					{
-						sprite.play("Run");
-						sprite.rate = FP.scale(Math.abs(speed.x), 0, MAX_SPEED, 0, 1);
-					}
-					else
-					{
-						if (Input.released(Key.SPACE))
-						{
-							sprite.play("Shoot");
-							sprite.rate = 1;
-							
-							if (sprite.flipped)
-							{
-								FP.world.add(new Bullet(x - 6, y+1, -30));
-							}
-							else
-							{
-								FP.world.add(new Bullet(x + 6, y+1, 30));
-							}
-						}
-						else if(sprite.currentAnim != "Shoot"){
-							sprite.play("Idle");
-							sprite.rate = 1;
-						}
-					}
+					sprite.play("Run");
+					sprite.rate = FP.scale(Math.abs(speed.x), 0, MAX_SPEED, 0, 1);
 				}
-				
-				var door:Door = Door(collide("Door", x, y));
-				if (door)
+				else
 				{
-					if (Input.check(Key.UP))
+					if (Input.released(Key.SPACE))
 					{
-						if (door.isOpened())
+						sprite.play("Shoot");
+						sprite.rate = 1;
+							
+						if (sprite.flipped)
 						{
-							onStairs = true;
-							doorTime(door);
+							FP.world.add(new Bullet(x - 70, y+20, -5));
 						}
 						else
 						{
-							door.open();
+							FP.world.add(new Bullet(x + 70, y+20, 5));
 						}
 					}
-					else if (Input.check(Key.DOWN))
-					{
-						door.close();
+					else if(sprite.currentAnim != "Shoot"){
+						sprite.play("Idle");
+						sprite.rate = 1;
 					}
 				}
+			}
 				
-				if (speed.x != 0)
-					sprite.flipped = speed.x < 0; 
-				
-				if (sprite.complete && sprite.currentAnim == "Shoot")
+			var door:Door = Door(collide("Door", x, y));
+			if (door)
+			{
+				if (Input.check(Key.UP))
 				{
-					sprite.play("Idle");	
+					if (door.isOpened())
+					{
+						onStairs = true;
+						doorTime(door);
+					}
+					else
+					{
+						door.open();
+					}
 				}
+				else if (Input.check(Key.DOWN))
+				{
+					door.close();
+				}
+			}
+				
+			if (speed.x != 0)
+				sprite.flipped = speed.x < 0; 
+				
+			if (sprite.complete && sprite.currentAnim == "Shoot")
+			{
+				sprite.play("Idle");	
+			}
 				/*if (collide("Death", x, y))
 				{
 					//world.add(new Explode(x, y - 10));
@@ -149,15 +142,19 @@ package objects
 						safeSpot.y = y;
 					}
 				}*/
-			}
+		}
+		
+		public function dismount():void
+		{
+			sprite.visible = true;
+			onStairs = false;
+			destDoor.close();
 		}
 		
 		public function updateStairs():void
 		{
-			onStairs = false;
 			destDoor.open();
-			sprite.visible = true;
-			destDoor.close();
+			TweenMax.to(this, 0.1, { delay:0.5, onComplete: dismount} );
 		}
 		
 		public function doorTime(door:Door):void
@@ -175,7 +172,7 @@ package objects
 				{
 					destDoor = d;
 					TweenMax.killTweensOf(this);
-					TweenMax.to(this, 1, { x:d.x+3, y:d.y, delay:0.5, onComplete:updateStairs} );
+					TweenMax.to(this, 1, { x:d.x + 3, y:d.y, delay:0.5, onComplete:updateStairs } );
 					break;
 				}
 			}

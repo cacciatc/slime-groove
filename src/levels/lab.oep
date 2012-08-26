@@ -5,8 +5,8 @@
   <BackgroundColor A="255" R="125" G="160" B="255" />
   <GridColor A="255" R="255" G="240" B="90" />
   <LevelDefaultSize>
-    <Width>640</Width>
-    <Height>480</Height>
+    <Width>1280</Width>
+    <Height>1204</Height>
   </LevelDefaultSize>
   <LevelMinimumSize>
     <Width>640</Width>
@@ -18,7 +18,7 @@
   </LevelMaximumSize>
   <Filename>C:\Users\cacciatc\Desktop\ld24\slime-groove\src\levels\lab.oep</Filename>
   <AngleMode>Radians</AngleMode>
-  <CameraEnabled>true</CameraEnabled>
+  <CameraEnabled>false</CameraEnabled>
   <CameraSize>
     <Width>112</Width>
     <Height>16</Height>
@@ -26,14 +26,13 @@
   <ExportCameraPosition>false</ExportCameraPosition>
   <LevelValueDefinitions>
     <ValueDefinition xsi:type="IntValueDefinition" Name="TimeLimit" Default="10" Min="1" Max="20" ShowSlider="false" />
-    <ValueDefinition xsi:type="IntValueDefinition" Name="TotalSlimes" Default="10" Min="10" Max="100" ShowSlider="false" />
   </LevelValueDefinitions>
   <LayerDefinitions>
     <LayerDefinition xsi:type="TileLayerDefinition">
       <Name>Tiles</Name>
       <Grid>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>160</Width>
+        <Height>160</Height>
       </Grid>
       <ScrollFactor>
         <X>1</X>
@@ -44,8 +43,8 @@
     <LayerDefinition xsi:type="TileLayerDefinition">
       <Name>Background</Name>
       <Grid>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>160</Width>
+        <Height>160</Height>
       </Grid>
       <ScrollFactor>
         <X>1</X>
@@ -56,8 +55,8 @@
     <LayerDefinition xsi:type="GridLayerDefinition">
       <Name>Boundry</Name>
       <Grid>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>160</Width>
+        <Height>160</Height>
       </Grid>
       <ScrollFactor>
         <X>1</X>
@@ -69,8 +68,8 @@
     <LayerDefinition xsi:type="EntityLayerDefinition">
       <Name>Entities</Name>
       <Grid>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>160</Width>
+        <Height>160</Height>
       </Grid>
       <ScrollFactor>
         <X>1</X>
@@ -83,8 +82,8 @@
       <Name>Background</Name>
       <FilePath>..\assets\graphics\background-tiles.png</FilePath>
       <TileSize>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>160</Width>
+        <Height>160</Height>
       </TileSize>
       <TileSep>0</TileSep>
     </Tileset>
@@ -92,8 +91,8 @@
       <Name>Powerups</Name>
       <FilePath>..\assets\graphics\powerups.png</FilePath>
       <TileSize>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>160</Width>
+        <Height>160</Height>
       </TileSize>
       <TileSep>0</TileSep>
     </Tileset>
@@ -101,8 +100,8 @@
       <Name>WallTextures</Name>
       <FilePath>..\assets\graphics\background-textures.png</FilePath>
       <TileSize>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>160</Width>
+        <Height>160</Height>
       </TileSize>
       <TileSep>0</TileSep>
     </Tileset>
@@ -110,8 +109,8 @@
   <EntityDefinitions>
     <EntityDefinition Name="Spence" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>160</Width>
+        <Height>160</Height>
       </Size>
       <Origin>
         <X>0</X>
@@ -125,8 +124,8 @@
     </EntityDefinition>
     <EntityDefinition Name="BlueSlime" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>160</Width>
+        <Height>160</Height>
       </Size>
       <Origin>
         <X>0</X>
@@ -140,8 +139,8 @@
     </EntityDefinition>
     <EntityDefinition Name="RedSlime" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>160</Width>
+        <Height>160</Height>
       </Size>
       <Origin>
         <X>0</X>
@@ -155,8 +154,8 @@
     </EntityDefinition>
     <EntityDefinition Name="YellowSlime" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>160</Width>
+        <Height>160</Height>
       </Size>
       <Origin>
         <X>0</X>
@@ -170,8 +169,8 @@
     </EntityDefinition>
     <EntityDefinition Name="Sandy" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>160</Width>
+        <Height>160</Height>
       </Size>
       <Origin>
         <X>0</X>
@@ -185,8 +184,8 @@
     </EntityDefinition>
     <EntityDefinition Name="Door" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
       <Size>
-        <Width>16</Width>
-        <Height>16</Height>
+        <Width>160</Width>
+        <Height>160</Height>
       </Size>
       <Origin>
         <X>0</X>

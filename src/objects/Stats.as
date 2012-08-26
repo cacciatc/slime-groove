@@ -11,6 +11,7 @@ package objects
 	{
 		public var slimeTotal:int;
 		public var slimeCount:int;
+		public var slimeTime:int;
 		public function Stats() 
 		{
 			name = "Stats";

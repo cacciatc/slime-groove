@@ -13,7 +13,7 @@ package objects
 		[Embed(source = "../assets/graphics/background-tiles.png")] public static const DOOR:Class;
 		[Embed(source = "../assets/audio/door-close.mp3")] public static const CLOSE:Class;
 		
-		public var sprite:Spritemap = new Spritemap(DOOR, 16, 16);
+		public var sprite:Spritemap = new Spritemap(DOOR, 160, 160);
 		public var closeSnd:Sfx = new Sfx(CLOSE);
 		
 		public var dest:int;
@@ -22,14 +22,12 @@ package objects
 		public function Door(x:int, y:int, to:int, newName:int) 
 		{
 			super(x, y, sprite);
-			setHitbox(8, 10, 4, 10);
-			sprite.originX = 8;
-			sprite.originY = 16;
-			
+			setHitbox(160-40, 160-30, 40, 30);
+
 			sprite.add("Closed", [8], 0, false);
 			sprite.add("Opening", [9, 10, 11], 5, false);
 			sprite.add("Opened", [11], 0, false);
-			sprite.add("Closing", [11, 10, 9, 8], 5, false);
+			sprite.add("Closing", [11, 10, 9], 5, false);
 			
 			sprite.play("Closed");
 			
@@ -41,7 +39,7 @@ package objects
 		
 		public function open():void 
 		{
-			if (sprite.currentAnim != "Opening" && sprite.currentAnim != "Opened")
+			if (sprite.currentAnim == "Closed")
 			{
 				sprite.play("Opening");
 			}
@@ -49,10 +47,7 @@ package objects
 		
 		public function close():void 
 		{
-			if (sprite.currentAnim != "Closing" && sprite.currentAnim != "Closed")
-			{
-				sprite.play("Closing");
-			}
+			sprite.play("Closing");
 		}
 		
 		public function isOpened():Boolean 
