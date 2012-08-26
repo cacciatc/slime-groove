@@ -174,6 +174,7 @@ package objects
 				if (d.doorName == door.dest)
 				{
 					destDoor = d;
+					TweenMax.killTweensOf(this);
 					TweenMax.to(this, 1, { x:d.x+3, y:d.y, delay:0.5, onComplete:updateStairs} );
 					break;
 				}

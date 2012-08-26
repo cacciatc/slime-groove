@@ -4,6 +4,10 @@ package objects
 	import net.flashpunk.graphics.Spritemap;
 	import net.flashpunk.FP;
 	import com.greensock.TweenMax;
+	import net.flashpunk.Tween;
+	import net.flashpunk.tweens.motion.LinearMotion;
+	
+	import org.flashdevelop.utils.FlashConnect;
 	
 	/**
 	 * ...
@@ -32,6 +36,12 @@ package objects
 			dx = thedx;
 		}
 		
+		public function test():void
+		{
+			
+		FlashConnect.trace("done");
+		}
+		
 		override public function update():void
 		{
 			var slime:Slime;
@@ -39,13 +49,25 @@ package objects
 			{
 				FP.world.remove(this);
 			}
-			if ((slime = Slime(collide("Slime", x, y))))
+			if ((slime = Slime(collide("Slime", x, y-8))))
 			{
 				if (slime.health > 0)
 				{
-					FP.world.remove(this);
 					slime.health -= 1;
-					TweenMax.to(slime, 1, { x:(slime.x + (dx/4)) } );
+					if (dx < 0)
+					{
+						//TweenMax.to(slime, 1, { x:slime.x - 6, y:slime.y, onComplete:test } );
+						/*var t:LinearMotion = new LinearMotion();
+						
+						t.setMotion(slime.x, slime.y, slime.x - 6, slime.y, 1);
+						slime.addTween(t, true);
+						slime.updateTweens();*/
+					}
+					else
+					{
+						//TweenMax.to(slime, 1, { x:slime.x + 6, y:slime.y} );
+					}
+					FP.world.remove(this);
 				}
 				else
 				{

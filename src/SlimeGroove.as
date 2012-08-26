@@ -13,6 +13,7 @@ package
 	import objects.Door;
 	import objects.Stats;
 	import objects.YellowSlime;
+	import punk.ui.PunkLabel;
 	
 	import org.flashdevelop.utils.FlashConnect;
 	
@@ -45,15 +46,20 @@ package
 			
 			solids = new Grid(width, height, 16, 16);
 			solids.loadFromString(level.Boundry, "", "\n");
+			solids.y -= 16;
 			addMask(solids, "Solid");
 			
 			back = new Tilemap(WALLS, 128, 96, 16, 16);
+
 			back.loadFromString(level.Tiles, ",", "\n");
+			back.y -= 16;
 
 			addGraphic(back, 20);
 			
 			tiles = new Tilemap(BACKGROUND, 128, 96, 16, 16);
+
 			tiles.loadFromString(level.Background, ",", "\n");
+			tiles.y -= 16;
 			
 			addGraphic(tiles, 10);
 
@@ -62,29 +68,29 @@ package
 				
 			for each (o in level.Entities.Door)
 			{
-				add(new Door(int(o.@x)+2, int(o.@y) + 16, int(o.@To), int(o.@name)));
+				add(new Door(int(o.@x)+2, int(o.@y) + 0, int(o.@To), int(o.@name)));
 			}
 			
 			for each (o in level.Entities.Spence)
 			{
-				add(spence = new Spence(int(o.@x), int(o.@y)+16));
+				add(spence = new Spence(int(o.@x), int(o.@y)+0));
 			}
 			
 			var count:int = 0;
 			for each (o in level.Entities.BlueSlime)
 			{
 				count += 1;
-				add(new BlueSlime(int(o.@x)+2, int(o.@y) + 16));
+				add(new BlueSlime(int(o.@x)+2, int(o.@y) + 0));
 			}
 			for each (o in level.Entities.YellowSlime)
 			{
 				count += 1;
-				add(new YellowSlime(int(o.@x)+2, int(o.@y) + 16));
+				add(new YellowSlime(int(o.@x)+2, int(o.@y) + 0));
 			}
 			
 			var stats:Stats = new Stats();
 			stats.slimeTotal = count;
-			stats.slimeCount = 0;			
+			stats.slimeCount = 0;	
 		}
 		
 		override public function update():void 
@@ -92,7 +98,7 @@ package
 			super.update();
 			
 			camera.x += (FP.clamp(spence.x - 32, -10, width) - camera.x)
-			camera.y = spence.y - 32;
+			camera.y = spence.y -32;
 			
 			//camera.y += (FP.clamp(spence.y, 0, 16) - camera.y)
 			//if (player.x > width + 10)
@@ -104,7 +110,6 @@ package
 		
 		override public function render():void
 		{
-			
 			super.render();
 		}
 	}
