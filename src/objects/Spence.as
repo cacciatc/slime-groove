@@ -30,6 +30,7 @@ package objects
 		
 		public var onStairs:Boolean;
 		public var destDoor:Door;
+		public var b:Boolean;
 		
 		public function Spence(x:int, y:int) 
 		{
@@ -37,23 +38,34 @@ package objects
 			setHitbox(TILE_SIZE-40, TILE_SIZE-30);
 			
 			sprite.add("Idle", [0], 0, false);
-			sprite.add("Run", [1, 2, 3], 10, true);
-			sprite.add("Shoot", [4, 5, 6, 7, 8], 10, false);
+			sprite.add("Run", [6, 7, 8, 9], 8, true);
+			sprite.add("Shoot", [1, 2, 3, 4], 10, false);
 			
 			safeSpot = new Point(x, y);
 			
 			name = "Spence";
 			
 			onStairs = false;
+			b = false;
 		}
-		
+		public function toggleCement():void
+		{
+			if (b)
+			{
+				b = false;
+			}
+			else
+			{
+				b = true;
+			}
+		}
 		override public function update():void 
 		{
 			if (onStairs)
 			{
 				
 			}
-			else {
+			else if(b){
 				if (Input.check(Key.RIGHT))
 					speed.x += ACCEL;
 				
@@ -172,7 +184,7 @@ package objects
 				{
 					destDoor = d;
 					TweenMax.killTweensOf(this);
-					TweenMax.to(this, 1, { x:d.x + 3, y:d.y, delay:0.5, onComplete:updateStairs } );
+					TweenMax.to(this, 2, { x:d.x + 3, y:d.y, delay:0.5, onComplete:updateStairs } );
 					break;
 				}
 			}

@@ -36,17 +36,23 @@ package objects
 			if (sprite.complete)
 				sprite.play("Idle");
 				
-			if (collide("Solid", x, y))
+				
+			if (!TweenMax.isTweening(this))
 			{
+				//TweenMax.to(this, 4, { x: x+Math.random() * 3 * 160 * (Math.random() > 0.5 ? -1 :1) } );
+				
+			}
+			///if (collide("Solid", x, y))
+			//{
 				if (x <= 160)
 				{
-					x = 160;
+					x = 180;
 				}
 				if (x + 80 > SlimeGroove(FP.world).width - 210)
 				{
 					x = FP.width+320;
 				}
-			}
+			//}
 		}
 		
 		private function jump():void 

@@ -17,7 +17,7 @@ package
 			FP.screen.scale = 1;
 			FP.screen.color = 0x444444;
 			
-			FP.world = new SlimeGroove();
+			FP.world = new Title();//new SlimeGroove();
 		}
 	}
 }

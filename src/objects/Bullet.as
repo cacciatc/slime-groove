@@ -40,7 +40,7 @@ package objects
 			var slime:BlueSlime;
 			if (collide("Solid",x,y))
 			{
-				FP.world.remove(this);
+				//FP.world.remove(this);
 			}
 			if ((slime = BlueSlime(collide("BlueSlime", x, y))))
 			{

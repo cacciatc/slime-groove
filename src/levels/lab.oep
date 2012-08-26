@@ -5,16 +5,16 @@
   <BackgroundColor A="255" R="125" G="160" B="255" />
   <GridColor A="255" R="255" G="240" B="90" />
   <LevelDefaultSize>
-    <Width>1280</Width>
-    <Height>1204</Height>
+    <Width>5012</Width>
+    <Height>4012</Height>
   </LevelDefaultSize>
   <LevelMinimumSize>
-    <Width>640</Width>
-    <Height>480</Height>
+    <Width>5012</Width>
+    <Height>5012</Height>
   </LevelMinimumSize>
   <LevelMaximumSize>
-    <Width>2048</Width>
-    <Height>4096</Height>
+    <Width>5012</Width>
+    <Height>5012</Height>
   </LevelMaximumSize>
   <Filename>C:\Users\cacciatc\Desktop\ld24\slime-groove\src\levels\lab.oep</Filename>
   <AngleMode>Radians</AngleMode>
@@ -195,8 +195,8 @@
         <RectColor A="255" R="128" G="255" B="128" />
       </ImageDefinition>
       <ValueDefinitions>
-        <ValueDefinition xsi:type="IntValueDefinition" Name="To" Default="1" Min="1" Max="7" ShowSlider="false" />
-        <ValueDefinition xsi:type="IntValueDefinition" Name="name" Default="0" Min="0" Max="100" ShowSlider="false" />
+        <ValueDefinition xsi:type="IntValueDefinition" Name="name" Default="1" Min="0" Max="120" ShowSlider="true" />
+        <ValueDefinition xsi:type="IntValueDefinition" Name="to" Default="0" Min="0" Max="120" ShowSlider="true" />
       </ValueDefinitions>
       <NodesDefinition Enabled="false" Limit="-1" DrawMode="None" Ghost="false" />
     </EntityDefinition>
